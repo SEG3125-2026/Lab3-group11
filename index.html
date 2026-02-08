@@ -11,16 +11,15 @@
 <header class="topbar">
   <div class="brand">
     <h1 class="brand-title">Online Grocery Store</h1>
-    <p class="brand-subtitle">Lab 3 • Navigation + Categories</p>
   </div>
 
   <!-- Breadcrumb navigation (new pattern) -->
   <nav class="breadcrumbs" aria-label="Breadcrumb">
-    <button class="crumb navlink" data-tab="Client" type="button">Client</button>
+    <button class="crumb navlink" data-tab="Client" type="button">My Profile</button>
     <span class="crumb-sep">›</span>
-    <button class="crumb navlink" data-tab="Products" type="button">Products</button>
+    <button class="crumb navlink" data-tab="Products" type="button">Shop</button>
     <span class="crumb-sep">›</span>
-    <button class="crumb navlink" data-tab="Cart" type="button">Cart</button>
+    <button class="crumb navlink" data-tab="Cart" type="button">My Cart</button>
   </nav>
 </header>
 
@@ -85,7 +84,7 @@
   </fieldset>
 
   <button type="button" id="applyPrefsBtn" class="primary">
-    Apply my preferences
+    Show my products
   </button>
 
   <p id="prefsSummary" class="muted" style="margin-top: 10px;"></p>
@@ -116,7 +115,7 @@
   <div id="displayProduct" class="product-grid"></div>
 
   <button id="addCart" type="button" class="primary" onclick="selectedItems()">
-    Add selected items to cart
+    Add to cart
   </button>
 </section>
 
@@ -126,7 +125,7 @@
   <div id="displayCart"></div>
 
   <button type="button" id="clearCartBtn" class="secondary">
-    Clear cart / Restart
+    Clear cart / Start Over
   </button>
 </section>
 

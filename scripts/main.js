@@ -142,8 +142,25 @@ function selectedItems() {
   chosenProducts.forEach((name) => {
     const prod = products.find((p) => p.name === name);
     const item = document.createElement("div");
-    item.className = "cart-item-simple";
-    item.textContent = `${name} - $${prod ? prod.price.toFixed(2) : "0.00"}`;
+    item.className = "cart-item";
+    const img = document.createElement("img");
+    img.className = "cart-img";
+    img.src = prod?.img || "images/placeholder.jpg";
+    img.alt = name;
+    const info = document.createElement("div");
+    info.className = "cart-info";
+    const title = document.createElement("div");
+    title.className = "cart-name";
+    title.textContent = name;
+    const price = document.createElement("div");
+    price.className = "cart-price";
+    price.textContent = `$${prod ? prod.price.toFixed(2) : "0.00"}`;
+    info.appendChild(title);
+    info.appendChild(price);
+
+    item.appendChild(img);
+    item.appendChild(info);
+
     list.appendChild(item);
   });
 
@@ -196,7 +213,14 @@ function clearCartAndRestart() {
   // Clear products list
   const prodDiv = document.getElementById("displayProduct");
   if (prodDiv) prodDiv.innerHTML = "";
-
+  
+  // Reset Font Size
+  const fontSizeSelect = document.getElementById("fontSizeSelect");
+  if (fontSizeSelect){
+    fontSizeSelect.value = "16";
+    document.body.style.fontSize = "16px";
+  }
+  
   showTab("Client");
 }
 
