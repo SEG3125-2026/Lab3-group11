@@ -1,0 +1,236 @@
+/* This style sheet is taken from https://www.w3schools.com/howto/howto_js_tabs.asp> */
+ 
+ /* Style the tab */
+ *{ box-sizing: border-box; }
+ 
+ body{
+ background: #e6f3df;
+ position: relative;
+ overflow-x: hidden;
+ }
+ body::before,
+ body::after{
+ content: "";
+ position: absolute;
+ width: 600px;
+ height: 600px;
+ border-radius: 50%;
+ filter: blur(120px);
+ z-index: -1;
+ }
+ 
+ body::before{
+ background: #cfe8b6;
+ top: -200px;
+ left: -200px;
+ }
+ 
+ body::after{
+ background: #b7ddb1;
+ bottom: -250px;
+ right: -200px;
+ }
+ 
+ 
+ :root {
+ --green: #2f7d4c;
+ --dark-green: #1b3d2b;
+ --light-green: #daf1e0;
+ --shadow: 0 10px 25px rgba(11, 74, 5, 0.25);
+ --radius: 16px;
+ }
+ 
+ 
+ .tab {
+    display: flex;
+    gap: 12px;
+    padding: 15px 20px; 
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    max-width: 70%;
+    margin: 20px auto;
+    position: sticky;
+    top: 15px;
+    z-index: 10;
+}
+ 
+ /* Style the buttons that are used to open the tab content */
+ .tab button {
+ background: #cfdeae;
+ color: var(--dark-green);
+ border: none;
+ padding: 12px 20px;
+ border-radius: 999px;
+ font-weight: 700;
+ cursor: pointer;
+ transition: 0.3s;
+ 
+ }
+ 
+ /* Change background color of buttons on hover */
+ .tab button:hover{
+ background: var(--green);
+ color: white;
+ transform: translateY(-1px);
+ }
+ 
+ /* Create an active/current tablink class */
+ .tab button.active{
+ background: var(--dark-green);
+ color: white;
+ box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+ }
+ 
+ /* Style the tab content */
+ .tabcontent {
+ max-width: 70%;
+ margin: 25px auto;
+ background: white;
+ border: none;
+ border-radius: var(--radius);
+ box-shadow: var(--shadow);
+ padding: 25px;
+ }
+ 
+ fieldset {
+ border: 1px solid var(--dark-green);
+ border-radius: var(--radius);
+ padding: 20px;
+ margin-bottom: 20px;
+ }
+ 
+ button.block, #applyPrefsBtn, #clearCartBtn {
+ width: 20%;
+ font-size: 12px;
+ margin-top: 10px;
+ border: none;
+ background: var(--green);
+ color:white;
+ padding: 12px 15px;
+ border-radius: 15px;
+ font-weight: 700;
+ cursor: pointer;
+ transition: 0.3s;
+ button { display: block; margin: 0 auto; }
+ }
+ 
+ button.block:hover, #applyPrefsBtn:hover, #clearCartBtn:hover {
+ background-color: var(--dark-green);
+ }
+ 
+ #clearCartBtn {
+ background-color: var(--green);
+ border: 1px solid var(--green);
+ }
+ #clearCartBtn:hover {
+ background-color: var(--dark-green);
+ border: 1px solid var(--dark-green);
+ }
+ 
+ #sortPrice{
+ appearance: none;
+ background: white;
+ color: var(--dark-green);
+ border: 1px solid var(--dark-green);
+ border-radius: 999px;
+ padding: 10px 40px 10px 15px;
+ font-weight: 800;
+ cursor: pointer;
+ 
+ background-image:
+ linear-gradient(45deg, transparent 50%, white 50%),
+ linear-gradient(135deg, white 50%, transparent 50%);
+ background-position:
+ calc(100% - 18px) 50%,
+ calc(100% - 12px) 50%;
+ background-size: 6px 6px;
+ background-repeat: no-repeat;
+ }
+ 
+ #sortPrice:focus{
+ outline: 3px solid rgba(47,125,76,0.25);
+ }
+ 
+ 
+ .product-grid{
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+ gap: 20px;
+ margin-top: 20px;
+ }
+ 
+
+ .product-card{
+ display: flex;
+ flex-direction: column;
+ gap: 12px;
+ 
+ padding: 14px;
+ background: white;
+ border: none;
+ border-radius: var(--radius);
+ box-shadow: var(--shadow);
+ }
+ .product-img{
+ width: 100%;
+ height: 160px;
+ object-fit: contain;
+ background: #f6faf7;
+ border-radius: 12px;
+ }
+ .product-info{
+ text-align: center;
+ }
+ 
+ .product-name{
+ font-weight: 800;
+ text-transform: capitalize;
+ }
+ 
+ .product-price{
+ color: var(--dark-green);
+ font-weight: 700;
+ margin-top: 4px;
+ }
+ .product-card input[type="checkbox"]{
+ position: absolute;
+ top: 12px;
+ right: 12px;
+ transform: scale(1.2);
+ }
+ .product-card{
+ position: relative;
+ }
+
+ #signature {
+  margin-top: 40px;
+  text-align: center;
+  color: #0b2e0d;
+}
+
+.cart-list{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 500px;
+  margin-top: auto;
+}
+.cart-item-simple{
+    background: white;
+  border: #0b2e0d 1px solid;
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  font-weight: 700;
+  color: var(--dark-green);
+}
+.cart-total-box {
+  margin-top: 16px;
+  background: white;
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  font-weight: 900;
+  color: var(--dark-green);
+  box-shadow: var(--shadow);
+  max-width: 500px;
+}
