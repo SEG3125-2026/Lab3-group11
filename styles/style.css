@@ -146,6 +146,15 @@ fieldset {
 .check, .radio{ display:block; margin: 8px 0; font-weight: 650; }
 
 /* =========================
+   Client page: custom radio & checkbox color
+   ========================= */
+   #Client input[type="checkbox"],
+   #Client input[type="radio"]{
+    accent-color: var(--green);
+   }
+
+
+/* =========================
    Buttons (fixed + consistent)
    ========================= */
 button{
@@ -178,6 +187,7 @@ button.secondary, #clearCartBtn{
   font-weight: 900;
   cursor: pointer;
   transition: 0.3s;
+  margin-top: 14px;
 }
 
 button.secondary:hover, #clearCartBtn:hover{
@@ -269,18 +279,49 @@ button.secondary:hover, #clearCartBtn:hover{
   max-width: 500px;
 }
 
-.cart-item-simple{
+.cart-item{
+  display: flex;
+  align-items: center;
+  gap: 14px;
   background: white;
   border: #0b2e0d 1px solid;
-  border-radius: var(--radius);
+  border-radius: 999px;
   padding: 12px 16px;
+  font-weight: 650;
+  color: var(--dark-green);
+  box-shadow: var(--shadow);
+}
+
+.cart-info{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+}
+
+.cart-img{
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  background: #f6faf7;
+  border-radius: 12px;
+  padding: 8px;
+  flex: 0 0 auto;
+}
+
+.cart-name{
+  font-weight: 800;
+  color: var(--dark-green);
+}
+
+.cart-price{
   font-weight: 800;
   color: var(--dark-green);
 }
 
 .cart-total-box{
   margin-top: 16px;
-  background: white;
+  background: rgb(199, 231, 159);
   border-radius: var(--radius);
   padding: 14px 16px;
   font-weight: 900;
