@@ -75,3 +75,18 @@ function getTotalPrice(chosenProducts) {
 
   return totalPrice;
 }
+
+
+function getTotalPriceWithQuantities(cartItems) {
+  let totalPrice = 0;
+
+  for (let i = 0; i < cartItems.length; i++) {
+    const name = cartItems[i].name;
+    const qty = cartItems[i].qty;
+
+    const prodObj = products.find(p => p.name === name);
+    if (prodObj) totalPrice += prodObj.price * qty;
+  }
+
+  return totalPrice;
+}

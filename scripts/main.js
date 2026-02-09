@@ -76,87 +76,199 @@ function populateProductsFromPrefs(prefs, divId) {
     const card = document.createElement("label");
     card.className = "product-card";
 
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.name = "product";
-    checkbox.value = prodObj.name;
+    const qtyWrap =document.createElement("div");
+    qtyWrap.className ="qty-control";
+
+    const minusBtn =document.createElement("button");
+    minusBtn.type ="button";
+    minusBtn.className = "qty-btn";
+    minusBtn.textContent ="−";
+
+    const qtyInput = document.createElement("input");
+    qtyInput.type ="number";
+    qtyInput.className = "qty-input";
+    qtyInput.min = "0";
+    qtyInput.max = "99";
+    qtyInput.value = "0";
+    qtyInput.setAttribute("data-name", prodObj.name);
+
+    const plusBtn = document.createElement("button");
+    plusBtn.type = "button";
+    plusBtn.className ="qty-btn";
+    plusBtn.textContent ="+";
+
+    const clampQty= (n) => Math.max(0, Math.min(99, n));
+
+    minusBtn.addEventListener("click", () =>{
+      const next =clampQty((parseInt(qtyInput.value, 10) || 0)- 1);
+      qtyInput.value =next;
+    });
+
+    plusBtn.addEventListener("click", ()=> {
+      const next = clampQty((parseInt(qtyInput.value, 10) || 0) + 1);
+      qtyInput.value = next;
+    });
+
+    qtyInput.addEventListener("change", () => {
+      qtyInput.value =clampQty(parseInt(qtyInput.value, 10) || 0);
+    });
+
+    qtyWrap.appendChild(minusBtn);
+    qtyWrap.appendChild(qtyInput);
+    qtyWrap.appendChild(plusBtn);
+
 
     const badge = document.createElement("div");
     badge.className = "category-badge";
     badge.textContent = prodObj.category;
 
-    const img = document.createElement("img");
+    const img= document.createElement("img");
     img.className = "product-img";
-    img.src = prodObj.img || "images/placeholder.jpg";
+    img.src =prodObj.img || "images/placeholder.jpg";
     img.alt = prodObj.name;
 
-    const info = document.createElement("div");
-    info.className = "product-info";
+    const info= document.createElement("div");
+    info.className ="product-info";
 
     const name = document.createElement("div");
     name.className = "product-name";
     name.textContent = prodObj.name;
 
-    const price = document.createElement("div");
-    price.className = "product-price";
-    price.textContent = `$${prodObj.price.toFixed(2)}`;
+    const price =document.createElement("div");
+    price.className ="product-price";
+    price.textContent= `$${prodObj.price.toFixed(2)}`;
 
     info.appendChild(name);
     info.appendChild(price);
 
-    card.appendChild(checkbox);
     card.appendChild(badge);
     card.appendChild(img);
     card.appendChild(info);
+    card.appendChild(qtyWrap);
 
     container.appendChild(card);
   });
 }
 
+
 /* =========================
    Cart (existing logic + total to 2 decimals)
    ========================= */
 function selectedItems() {
-  const ele = document.getElementsByName("product");
-  const chosenProducts = [];
 
-  for (let i = 0; i < ele.length; i++) {
-    if (ele[i].checked) chosenProducts.push(ele[i].value);
-  }
+  const qtyInputs = document.querySelectorAll("#displayProduct .qty-input");
+  const cartItems = []; 
+
+  qtyInputs.forEach((inp) => {
+    const name = inp.getAttribute("data-name");
+    const qty = Math.max(0, Math.min(99, parseInt(inp.value, 10) || 0));
+    if (name && qty > 0) cartItems.push({ name, qty });
+  });
 
   const cartDiv = document.getElementById("displayCart");
   cartDiv.innerHTML = "";
 
-  if (chosenProducts.length === 0) {
+  if (cartItems.length=== 0) {
     cartDiv.innerHTML = "<p><em>Your cart is currently empty.</em></p>";
     return;
   }
 
-  const title = document.createElement("p");
+  const title =document.createElement("p");
   title.innerHTML = "<b>You selected:</b>";
   cartDiv.appendChild(title);
 
   const list = document.createElement("div");
   list.className = "cart-list";
 
-  chosenProducts.forEach((name) => {
+  cartItems.forEach(({ name, qty }) => {
     const prod = products.find((p) => p.name === name);
-    const item = document.createElement("div");
+
+    const item =document.createElement("div");
     item.className = "cart-item";
+
     const img = document.createElement("img");
     img.className = "cart-img";
     img.src = prod?.img || "images/placeholder.jpg";
     img.alt = name;
+
     const info = document.createElement("div");
-    info.className = "cart-info";
-    const title = document.createElement("div");
+    info.className ="cart-info";
+
+    const title =document.createElement("div");
     title.className = "cart-name";
-    title.textContent = name;
-    const price = document.createElement("div");
-    price.className = "cart-price";
-    price.textContent = `$${prod ? prod.price.toFixed(2) : "0.00"}`;
+    title.textContent= name;
+
+
+    const qtyRow = document.createElement("div");
+    qtyRow.className = "cart-qty-row";
+
+    const qtyWrap =document.createElement("div");
+    qtyWrap.className = "qty-control small";
+
+    const minusBtn =document.createElement("button");
+    minusBtn.type ="button";
+    minusBtn.className = "qty-btn";
+    minusBtn.textContent = "−";
+
+    const qtyInput =document.createElement("input");
+    qtyInput.type = "number";
+    qtyInput.className = "qty-input small";
+    qtyInput.min = "0";
+    qtyInput.max ="99";
+    qtyInput.value =String(qty);
+    qtyInput.setAttribute("data-name", name);
+
+    const plusBtn =document.createElement("button");
+    plusBtn.type = "button";
+    plusBtn.className = "qty-btn";
+    plusBtn.textContent = "+";
+
+    const subtotal = document.createElement("div");
+    subtotal.className = "cart-subtotal";
+    const unitPrice = prod ? prod.price : 0;
+    subtotal.textContent =`$${(unitPrice * qty).toFixed(2)}`;
+
+    const clampQty = (n) => Math.max(0, Math.min(99, n));
+
+    const syncProductPageQty =(newQty) => {
+      const productInput = document.querySelector(`.qty-input[data-name="${CSS.escape(name)}"]`);
+      if (productInput) productInput.value = String(newQty);
+    };
+
+    const updateSubtotal =() => {
+      const newQty =clampQty(parseInt(qtyInput.value, 10) || 0);
+      qtyInput.value = String(newQty);
+      subtotal.textContent =`$${(unitPrice * newQty).toFixed(2)}`;
+      syncProductPageQty(newQty);
+    };
+
+    minusBtn.addEventListener("click", () => {
+      qtyInput.value =String(clampQty((parseInt(qtyInput.value, 10) || 0)- 1));
+      updateSubtotal();
+      selectedItems();
+    });
+
+    plusBtn.addEventListener("click", () => {
+      qtyInput.value = String(clampQty((parseInt(qtyInput.value, 10) || 0)+ 1));
+      updateSubtotal();
+      selectedItems(); 
+    });
+
+    qtyInput.addEventListener("change", () => {
+      updateSubtotal();
+      selectedItems(); 
+    });
+
+    qtyWrap.appendChild(minusBtn);
+    qtyWrap.appendChild(qtyInput);
+    qtyWrap.appendChild(plusBtn);
+
+    qtyRow.appendChild(qtyWrap);
+    qtyRow.appendChild(subtotal);
+
+
     info.appendChild(title);
-    info.appendChild(price);
+    info.appendChild(qtyRow);
 
     item.appendChild(img);
     item.appendChild(info);
@@ -166,14 +278,16 @@ function selectedItems() {
 
   cartDiv.appendChild(list);
 
-  const total = getTotalPrice(chosenProducts);
-  const totalBox = document.createElement("div");
+  const total =getTotalPriceWithQuantities(cartItems);
+  const totalBox =document.createElement("div");
   totalBox.className = "cart-total-box";
-  totalBox.textContent = `Total Price: $${total.toFixed(2)}`;
+  totalBox.textContent= `Total Price: $${total.toFixed(2)}`;
   cartDiv.appendChild(totalBox);
+
 
   showTab("Cart");
 }
+
 
 /* =========================
    Clear cart / restart
@@ -184,8 +298,8 @@ function clearCartAndRestart() {
   if (cartDiv) cartDiv.innerHTML = "";
 
   // Uncheck all product checkboxes
-  const productChecks = document.getElementsByName("product");
-  for (let i = 0; i < productChecks.length; i++) productChecks[i].checked = false;
+  const qtyInputs = document.querySelectorAll(".qty-input");
+  qtyInputs.forEach((inp) => (inp.value = "0"));
 
   // Reset client preferences
   const veg = document.getElementById("prefVegetarian");
